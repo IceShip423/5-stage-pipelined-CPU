@@ -8,7 +8,7 @@ module MainMemory
     , input  RESET // reset
     , input  ENABLE
     , input [31:0] FETCH_ADDRESS
-    // , input [64:0] EDIT_SERIAL  //64   63 32   31 0
+    , input [64:0] EDIT_SERIAL
 
       // Outputs
     , output reg [31:0] DATA

@@ -1,4 +1,4 @@
-module IF_ID(CLK,PCplus4;);
+module IF_ID(CLK,in_PCplus4,PCplus4,in_inst,inst);
 
 // input & output
 input CLK;

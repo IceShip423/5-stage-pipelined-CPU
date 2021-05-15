@@ -1,4 +1,4 @@
-module MEM_WB(CLKin_RegWrite,in_MemtoReg,RegWrite,MemtoReg,in_ALUOut,in_ReadData,
+module MEM_WB(CLK,in_RegWrite,in_MemtoReg,RegWrite,MemtoReg,in_ALUOut,in_ReadData,
 ALUOut,ReadData,in_WriteReg,WriteReg);
 
 // input & output
