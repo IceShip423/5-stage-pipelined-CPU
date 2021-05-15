@@ -12,6 +12,12 @@ output reg zero;
 reg signed [31:0] A,B;
 reg unsigned [31:0] Au,Bu;
 
+
+initial begin
+    C=0;
+    zero=0;
+end
+
 always @(Ain,Bin,ALUControl) begin
     A=Ain;
     B=Bin;

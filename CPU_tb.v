@@ -10,7 +10,7 @@ CPU CPU_test(
 
 initial begin
     $display("Begin");
-    #10000;
+    #30000;
     $display("End");
 end
 

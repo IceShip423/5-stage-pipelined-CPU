@@ -18,8 +18,8 @@
 module CPU;
 
 
-wire Branch_M;
 wire [31:0] PC_F;
+wire Branch_M;
 
 wire zero_M;
 wire [31:0] PCBranch_M;
@@ -41,10 +41,10 @@ clock clock_1(
     .CLK       (CLK)
 );
 
-
 /* MUX32_1
 ------------------------
 */
+
 wire [31:0] PC;
 
 MUX32 MUX32_1(
@@ -79,7 +79,7 @@ InstructionRAM InstructionRAM_1(
     .CLOCK               (CLK),                         
     .RESET               (1'b0),            
     .ENABLE              (1'b1),             
-    .FETCH_ADDRESS       (PC_F),                    
+    .FETCH_ADDRESS       (PC_F>>2),                    
     // out                           
     .DATA                (instr_F)           
 );
@@ -358,6 +358,21 @@ MUX32 MUX32_5(
     // out        
     .C              (Result_W)   
 );
+
+
+
+integer cnt=0,flag=0;
+
+always @(negedge(CLK)) begin
+    $display("[PC=%d]  %b",PC_F,instr_F);
+    // stop mechanism
+    if (instr_D==32'b11111111111111111111111111111111)
+        flag=1;
+    if (flag==1)
+        cnt=cnt+1;
+    if (cnt>=3)
+        $finish;
+end
 
 
 endmodule

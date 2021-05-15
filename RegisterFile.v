@@ -12,7 +12,10 @@ input RegWrite;
 // registers
 reg [31:0] REG[31:0];
 
-
+initial begin
+    RD1 <= 0;
+    RD2 <= 0;
+end
 
 always @(negedge CLK) begin // read in the second half
     RD1 <= REG[(A1)];

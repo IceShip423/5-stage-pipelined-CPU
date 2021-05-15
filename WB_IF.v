@@ -12,7 +12,7 @@ initial begin
 end
 
 always @(posedge CLK) begin
-    PCF=PC;
+    PCF = PC;
 end
 
 endmodule

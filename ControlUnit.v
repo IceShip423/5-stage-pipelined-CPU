@@ -8,6 +8,16 @@ output reg RegWrite,MemtoReg,MemWrite,Branch;
 output reg [3:0] ALUControl;
 output reg ALUSrc,ALUSrc_shamt,RegDst;
 
+initial begin
+        RegWrite=0;
+        MemtoReg=0;
+        MemWrite=0;
+        Branch=0;
+        ALUControl=4'b0000;
+        ALUSrc=0;
+        ALUSrc_shamt=0;
+        RegDst =0;
+end
 
 always @(Op, Funct) begin
     if (Op==6'h0 && Funct==6'h20) // add

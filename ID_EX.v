@@ -16,6 +16,25 @@ output reg [4:0] Rt,Rd,shamt;
 input [31:0] in_RD1,in_RD2,in_PCplus4,in_SignImm;
 output reg [31:0] RD1,RD2,PCplus4,SignImm;
 
+initial begin
+    RegWrite         =          0     ;
+    MemtoReg         =          0     ;
+    MemWrite         =          0     ;
+    Branch           =          0     ;
+    ALUControl       =          0     ;
+    ALUSrc           =          0     ;
+    ALUSrc_shamt     =          0     ;
+    RegDst           =          0     ;
+    RD1              =          0     ;
+    RD2              =          0     ;
+    Rt               =          0     ;
+    Rd               =          0     ;
+    shamt            =          0     ;
+    SignImm          =          0     ;
+    PCplus4          =          0     ;
+end
+
+
 always @(posedge CLK) begin
     RegWrite         =          in_RegWrite          ;                     
     MemtoReg         =          in_MemtoReg          ;                    

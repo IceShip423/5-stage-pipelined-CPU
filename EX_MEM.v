@@ -14,6 +14,18 @@ output reg [4:0] WriteReg;
 input in_zero;
 output reg zero;
 
+initial begin
+    RegWrite    =    0    ;
+    MemtoReg    =    0    ;
+    MemWrite    =    0    ;
+    Branch      =    0    ;
+    ALUOut      =    0    ;
+    zero        =    0    ;
+    WriteData   =    0    ;
+    WriteReg    =    0    ;
+    PCBranch    =    0    ;
+end
+
 always @(posedge CLK) begin
     RegWrite    =    in_RegWrite     ;
     MemtoReg    =    in_MemtoReg     ;
