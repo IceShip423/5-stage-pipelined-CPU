@@ -1,7 +1,9 @@
+`timescale 100fs/100fs
+
 module ID_EX(CLK,in_RegWrite,in_MemtoReg,in_MemWrite,in_Branch,in_ALUControl,in_ALUSrc,in_ALUSrc_shamt,in_RegDst,
 RegWrite,MemtoReg,MemWrite,Branch,ALUControl,ALUSrc,ALUSrc_shamt,RegDst,
 in_RD1,in_RD2,in_Rt,in_Rd,in_shamt,in_SignImm,in_PCplus4,
-RD1,RD2,Rt,Rd,shamt,SignImm,PCplus4;);
+RD1,RD2,Rt,Rd,shamt,SignImm,PCplus4);
 
 // input & output
 input CLK;

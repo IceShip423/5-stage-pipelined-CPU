@@ -18,6 +18,18 @@
 module CPU;
 
 
+wire Branch_M;
+wire [31:0] PC_F;
+
+wire zero_M;
+wire [31:0] PCBranch_M;
+
+wire RegWrite_W;
+wire [4:0] WriteReg_W;
+
+wire [31:0] Result_W;
+
+
 /* CLK
 -----------------------
 */
@@ -33,7 +45,6 @@ clock clock_1(
 /* MUX32_1
 ------------------------
 */
-
 wire [31:0] PC;
 
 MUX32 MUX32_1(
@@ -50,14 +61,13 @@ MUX32 MUX32_1(
 ------------------------
 */
 
-wire [31:0] PC_F;
-
 WB_IF WB_IF_1(
     .CLK        (CLK),
     .PC         (PC),
     // out
     .PCF        (PC_F)
 );
+
 
 /* InstructionMem
 ------------------------
@@ -67,8 +77,8 @@ wire [31:0] instr_F;
 
 InstructionRAM InstructionRAM_1(
     .CLOCK               (CLK),                         
-    .RESET               (0),            
-    .ENABLE              (1),             
+    .RESET               (1'b0),            
+    .ENABLE              (1'b1),             
     .FETCH_ADDRESS       (PC_F),                    
     // out                           
     .DATA                (instr_F)           
@@ -95,8 +105,7 @@ IF_ID IF_ID_2(
 ------------------------
 */
 
-wire [4:0] RegWrite_D;
-wire MemtoReg_D,MemWrite_D,Branch_D;
+wire RegWrite_D,MemtoReg_D,MemWrite_D,Branch_D;
 wire [3:0] ALUControl_D;
 wire ALUSrc_D,ALUSrc_shamt_D,RegDst_D;
 
@@ -185,7 +194,7 @@ ID_EX ID_EX_3(
     .RD2               (RD2_E),              
     .Rt                (Rt_E),             
     .Rd                (Rd_E),
-    .shamt             (shamt_E)             
+    .shamt             (shamt_E),             
     .SignImm           (SignImm_E),                  
     .PCplus4           (PCplus4_E)                  
 );                  
@@ -213,7 +222,7 @@ wire [31:0] SrcA_E;
 
 MUX32 MUX32_3(
     .A0             (RD1_E),     
-    .A1             (shamt_E),    
+    .A1             ({27'b0,shamt_E}),    
     .Control        (ALUSrc_shamt_E),
     // out        
     .C              (SrcA_E)   
@@ -266,12 +275,13 @@ ALU ALU_1(
 );
 
 
+
 /* stage4: MEM
 ------------------------
 */
 
-wire RegWrite_M,MemtoReg_M,MemWrite_M,Branch_M,zero_M;
-wire [31:0] ALUOut_M,WriteData_M,PCBranch_M;
+wire RegWrite_M,MemtoReg_M,MemWrite_M;
+wire [31:0] ALUOut_M,WriteData_M;
 wire [4:0] WriteReg_M;
 
 EX_MEM EX_MEM_4(
@@ -306,45 +316,42 @@ wire [31:0] ReadData_M;
 
 MainMemory MainMemory_1(
     .CLOCK                    (CLK),                   
-    .RESET                    (0),     
+    .RESET                    (1'b0),     
     .ENABLE                   (MemWrite_M),      
     .FETCH_ADDRESS            (ALUOut_M),
-    .EDIT_SERIAL              ({MemWrite_M,ALUOut_M[31:0],WriteData_M[31:0]})             
+    .EDIT_SERIAL              ({MemWrite_M,ALUOut_M[31:0],WriteData_M[31:0]}),             
     // out
     .DATA                     (ReadData_M)    
 );
 
 
+
 /* stage5: WB
 ------------------------
 */
-
-wire RegWrite_W,MemtoReg_W;
+wire MemtoReg_W;
 wire [31:0] ALUOut_W,ReadData_W;
-wire [4:0] WriteReg_W;
 
 MEM_WB MEM_WB_5(
-    CLK               (CLK),                            
-    in_RegWrite       (RegWrite_M),                    
-    in_MemtoReg       (MemtoReg_M),                    
-    in_ALUOut         (ALUOut_M),                  
-    in_ReadData       (ReadData_M),                    
-    in_WriteReg       (WriteReg_M),
+    .CLK               (CLK),                            
+    .in_RegWrite       (RegWrite_M),                    
+    .in_MemtoReg       (MemtoReg_M),                    
+    .in_ALUOut         (ALUOut_M),                  
+    .in_ReadData       (ReadData_M),                    
+    .in_WriteReg       (WriteReg_M),
     // out                    
-    RegWrite          (RegWrite_W),                 
-    MemtoReg          (MemtoReg_W),                 
-    ALUOut            (ALUOut_W),               
-    ReadData          (ReadData_W),                 
-    WriteReg          (WriteReg_W)                 
+    .RegWrite          (RegWrite_W),                 
+    .MemtoReg          (MemtoReg_W),                 
+    .ALUOut            (ALUOut_W),               
+    .ReadData          (ReadData_W),                 
+    .WriteReg          (WriteReg_W)                 
 );
 
 /* MUX32_5
 ------------------------
 */
 
-wire [31:0] Result_W;
-
-MUX5 MUX32_5(
+MUX32 MUX32_5(
     .A0             (ALUOut_W),     
     .A1             (ReadData_W),    
     .Control        (MemtoReg_W),

@@ -1,3 +1,5 @@
+`timescale 100fs/100fs
+
 module EX_MEM(CLK,in_RegWrite,in_MemtoReg,in_MemWrite,in_Branch,RegWrite,MemtoReg,MemWrite,Branch,
 in_ALUOut,in_zero,in_WriteData,in_WriteReg,in_PCBranch,ALUOut,zero,WriteData,WriteReg,PCBranch);
 

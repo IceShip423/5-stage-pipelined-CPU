@@ -1,3 +1,5 @@
+`timescale 100fs/100fs
+
 module clock(CLK);
 
 // output

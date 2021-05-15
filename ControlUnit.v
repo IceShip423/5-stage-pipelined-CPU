@@ -1,15 +1,16 @@
+`timescale 100fs/100fs
+
 module ControlUnit(Op,Funct,RegWrite,MemtoReg,MemWrite,Branch,ALUControl,ALUSrc,ALUSrc_shamt,RegDst);
 
 // input & output
 input [5:0] Op,Funct;
-output [4:0] RegWrite;
-output MemtoReg,MemWrite,Branch;
-output [3:0] ALUControl;
-output ALUSrc,ALUSrc_shamt,RegDst;
+output reg RegWrite,MemtoReg,MemWrite,Branch;
+output reg [3:0] ALUControl;
+output reg ALUSrc,ALUSrc_shamt,RegDst;
 
 
 always @(Op, Funct) begin
-    if (Op==6'h0 and funct==6'h20) // add
+    if (Op==6'h0 && Funct==6'h20) // add
     begin
         RegWrite=1;
         MemtoReg=0;
@@ -20,7 +21,7 @@ always @(Op, Funct) begin
         ALUSrc_shamt=0;
         RegDst =1;
     end
-    else if (Op==6'h0 and funct==6'h21) // addu (add)
+    else if (Op==6'h0 && Funct==6'h21) // addu (add)
     begin
         RegWrite=1;
         MemtoReg=0;
@@ -53,7 +54,7 @@ always @(Op, Funct) begin
         ALUSrc_shamt=0;
         RegDst =0;
     end
-    else if (Op==6'h0 and funct==6'h22) // sub
+    else if (Op==6'h0 && Funct==6'h22) // sub
     begin
         RegWrite=1;
         MemtoReg=0;
@@ -64,7 +65,7 @@ always @(Op, Funct) begin
         ALUSrc_shamt=0;
         RegDst =1;
     end
-    else if (Op==6'h0 and funct==6'h23) // subu (sub)
+    else if (Op==6'h0 && Funct==6'h23) // subu (sub)
     begin
         RegWrite=1;
         MemtoReg=0;
@@ -75,7 +76,7 @@ always @(Op, Funct) begin
         ALUSrc_shamt=0;
         RegDst =1;
     end
-    else if (Op==6'h0 and funct==6'h24) // and
+    else if (Op==6'h0 && Funct==6'h24) // &&
     begin
         RegWrite=1;
         MemtoReg=0;
@@ -86,7 +87,7 @@ always @(Op, Funct) begin
         ALUSrc_shamt=0;
         RegDst =1;
     end
-    else if (Op==6'hc) // andi
+    else if (Op==6'hc) // &&i
     begin
         RegWrite=1;
         MemtoReg=0;
@@ -97,7 +98,7 @@ always @(Op, Funct) begin
         ALUSrc_shamt=0;
         RegDst =0;
     end
-    else if (Op==6'h0 and funct==6'h27) // nor
+    else if (Op==6'h0 && Funct==6'h27) // nor
     begin
         RegWrite=1;
         MemtoReg=0;
@@ -108,7 +109,7 @@ always @(Op, Funct) begin
         ALUSrc_shamt=0;
         RegDst =1;
     end
-    else if (Op==6'h0 and funct==6'h25) // or
+    else if (Op==6'h0 && Funct==6'h25) // or
     begin
         RegWrite=1;
         MemtoReg=0;
@@ -130,7 +131,7 @@ always @(Op, Funct) begin
         ALUSrc_shamt=0;
         RegDst =0;
     end
-    else if (Op==6'h0 and funct==6'h26) // xor
+    else if (Op==6'h0 && Funct==6'h26) // xor
     begin
         RegWrite=1;
         MemtoReg=0;
@@ -152,7 +153,7 @@ always @(Op, Funct) begin
         ALUSrc_shamt=0;
         RegDst =0;
     end
-    else if (Op==6'h0 and funct==6'h0) // sll
+    else if (Op==6'h0 && Funct==6'h0) // sll
     begin
         RegWrite=1;
         MemtoReg=0;
@@ -163,7 +164,7 @@ always @(Op, Funct) begin
         ALUSrc_shamt=1;
         RegDst=1;
     end
-    else if (Op==6'h0 and funct==6'h4) // sllv
+    else if (Op==6'h0 && Funct==6'h4) // sllv
     begin
         RegWrite=1;
         MemtoReg=0;
@@ -174,7 +175,7 @@ always @(Op, Funct) begin
         ALUSrc_shamt=0;
         RegDst=1;
     end
-    else if (Op==6'h0 and funct==6'h3) // sra
+    else if (Op==6'h0 && Funct==6'h3) // sra
     begin
         RegWrite=1;
         MemtoReg=0;
@@ -185,7 +186,7 @@ always @(Op, Funct) begin
         ALUSrc_shamt=1;
         RegDst=1;
     end
-    else if (Op==6'h0 and funct==6'h7) // srav
+    else if (Op==6'h0 && Funct==6'h7) // srav
     begin
         RegWrite=1;
         MemtoReg=0;
@@ -196,7 +197,7 @@ always @(Op, Funct) begin
         ALUSrc_shamt=0;
         RegDst=1;
     end
-    else if (Op==6'h0 and funct==6'h2) // srl
+    else if (Op==6'h0 && Funct==6'h2) // srl
     begin
         RegWrite=1;
         MemtoReg=0;
@@ -207,7 +208,7 @@ always @(Op, Funct) begin
         ALUSrc_shamt=1;
         RegDst=1;
     end
-    else if (Op==6'h0 and funct==6'h6) // srlv
+    else if (Op==6'h0 && Funct==6'h6) // srlv
     begin
         RegWrite=1;
         MemtoReg=0;
@@ -240,7 +241,7 @@ always @(Op, Funct) begin
         ALUSrc_shamt=0;
         RegDst=0; // x
     end
-    else if (Op==6'h0 and funct==6'h2a) // slt
+    else if (Op==6'h0 && Funct==6'h2a) // slt
     begin
         RegWrite=1;
         MemtoReg=0;
@@ -296,7 +297,7 @@ always @(Op, Funct) begin
         ALUSrc_shamt=0;
         RegDst =;
     end
-    else if (Op==6'h0 and funct==6'h8) // jr
+    else if (Op==6'h0 && Funct==6'h8) // jr
     begin
         RegWrite=;
         MemtoReg=;

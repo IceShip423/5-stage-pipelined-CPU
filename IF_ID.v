@@ -1,3 +1,5 @@
+`timescale 100fs/100fs
+
 module IF_ID(CLK,in_PCplus4,PCplus4,in_inst,inst);
 
 // input & output

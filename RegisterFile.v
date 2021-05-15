@@ -1,3 +1,5 @@
+`timescale 100fs/100fs
+
 module RegisterFile(A1,A2,A3,WD,RD1,RD2,CLK,RegWrite);
 
 // input & output

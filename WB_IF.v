@@ -1,3 +1,5 @@
+`timescale 100fs/100fs
+
 module WB_IF(PC,PCF,CLK);
 
 // input & output
@@ -6,7 +8,7 @@ output reg [31:0] PCF;
 input CLK;
 
 initial begin
-    PC=0;
+    PCF=0;
 end
 
 always @(posedge CLK) begin

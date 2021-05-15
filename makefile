@@ -1,1 +1,0 @@
-iverilog -o wave -y .\  CPU_tb.v

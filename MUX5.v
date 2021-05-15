@@ -1,10 +1,12 @@
-module MUX32(A0,A1,C,Control);
+`timescale 100fs/100fs
+
+module MUX5(A0,A1,C,Control);
 
 // input & output
 input [4:0] A0,A1;
 output [4:0] C;
 input Control;
 
-assign C = Control == 0 ? A0 : A1；
+assign C = (Control == 0) ? (A0) : (A1);
 
 endmodule

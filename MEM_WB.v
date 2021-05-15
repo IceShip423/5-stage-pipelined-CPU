@@ -1,3 +1,5 @@
+`timescale 100fs/100fs
+
 module MEM_WB(CLK,in_RegWrite,in_MemtoReg,RegWrite,MemtoReg,in_ALUOut,in_ReadData,
 ALUOut,ReadData,in_WriteReg,WriteReg);
 

@@ -1,3 +1,5 @@
+`timescale 100fs/100fs
+
 module SignExtend(num16,num32);
 
 // input & output

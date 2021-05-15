@@ -1,3 +1,5 @@
+`timescale 100fs/100fs
+
 module ALU(Ain,Bin,C,zero,ALUControl);
 
 // input & output
@@ -10,7 +12,7 @@ output reg zero;
 reg signed [31:0] A,B;
 reg unsigned [31:0] Au,Bu;
 
-always @(posedge CLK) begin
+always @(Ain,Bin,ALUControl) begin
     A=Ain;
     B=Bin;
     Au=Ain;
