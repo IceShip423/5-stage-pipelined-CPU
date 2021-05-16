@@ -22,6 +22,7 @@ module CPU;
 -----------------------
 */
 reg ENABLE;
+reg RESET_IF_ID,RESET_ID_EX,RESET_EX_MEM;
 
 wire [31:0] PC_F;
 wire Branch_M;
@@ -33,6 +34,7 @@ wire RegWrite_W;
 wire [4:0] WriteReg_W;
 
 wire [31:0] Result_W;
+
 
 
 /* CLK
@@ -84,7 +86,7 @@ wire [31:0] instr_F;
 
 InstructionRAM InstructionRAM_1(                  
     .RESET               (1'b0),            
-    .ENABLE              (1'b1),             
+    .ENABLE              (ENABLE),             
     .FETCH_ADDRESS       (PC_F>>2),                    
     // out                           
     .DATA                (instr_F)           
@@ -100,6 +102,7 @@ wire [31:0] PCplus4_D;
 
 IF_ID IF_ID_2(
     .CLK                 (CLK),
+    .RESET               (RESET_IF_ID),
     .in_inst             (instr_F),
     .in_PCplus4          (PC_F+4),
     // out
@@ -172,7 +175,8 @@ wire [4:0] Rt_E,Rd_E,shamt_E;
 wire signed [31:0] RD1_E,RD2_E,PCplus4_E,SignImm_E;
 
 ID_EX ID_EX_3(
-    .CLK               (CLK),                        
+    .CLK               (CLK),
+    .RESET             (RESET_ID_EX),                        
     .in_RegWrite       (RegWrite_D),                          
     .in_MemtoReg       (MemtoReg_D),                      
     .in_MemWrite       (MemWrite_D),                      
@@ -294,6 +298,7 @@ wire [4:0] WriteReg_M;
 
 EX_MEM EX_MEM_4(
     .CLK                (CLK),
+    .RESET              (RESET_EX_MEM),
     .in_RegWrite        (RegWrite_E),                                       
     .in_MemtoReg        (MemtoReg_E),                                    
     .in_MemWrite        (MemWrite_E),                                    
@@ -368,26 +373,87 @@ MUX32 MUX32_5(
 );
 
 
-integer aa;
+
+
+/*  Control
+--------------------------------------------------------------------
+*/
+
+/* Starter
+------------------------
+*/
 
 initial begin
     ENABLE=0;
+    RESET_EX_MEM=0;
+    RESET_ID_EX=0;
+    RESET_IF_ID=0;
     #4000;
-
     ENABLE=1;
-    $display("--------Begin-------");
+    $display("------------------Begin----------------------");
 end
 
-always @(posedge(CLK))begin
-    // $display("posedge:%d %b",PC_F,instr_F);
 
+/* Branch Manager
+------------------------
+*/
+
+always @(zero_M,Branch_M) begin
+    if (zero_M & Branch_M) // branch
+    begin
+        #400;
+        RESET_EX_MEM=1;
+        RESET_ID_EX=1;
+        RESET_IF_ID=1;
+    end
+    else begin
+        RESET_EX_MEM=0;
+        RESET_ID_EX=0;
+        RESET_IF_ID=0;
+    end
 end
 
+/* Jump Manager
+------------------------
+*/
+
+always @(ALUControl_D) begin
+    if (ALUControl_D==4'b1101) // j,jal
+    begin
+        #400;
+        RESET_ID_EX=1;
+        // RESET_IF_ID=1;
+        if (instr_D[31:26]==6'h3) // jal
+            RegisterFile_1.REG[31]=WB_IF_1.PCF;
+        WB_IF_1.PCF={6'b0,instr_D[25:0]}<<2;
+    end
+    else if (ALUControl_D==4'b1110) // jr
+    begin
+        #400;
+        RESET_ID_EX=1;
+        // RESET_IF_ID=1;
+        #1000
+        WB_IF_1.PCF=RD1_D;
+    end
+    else begin
+        RESET_EX_MEM=0;
+        RESET_ID_EX=0;
+        RESET_IF_ID=0;
+    end
+end
+
+
+/* Ender & debugger
+------------------------
+*/
+
+integer aa;
 integer final_cnt=0,flag=0,designed_cnt=0;
 
 always @(negedge(CLK)) begin
-    // ENABLE=~ENABLE;
+
     #900; // the end of this clock
+
     $display("[PCF:%d][%d] instr_F:%b",PC_F,InstructionRAM_1.FETCH_ADDRESS,instr_F);
     $display("instr_D:%b",instr_D);
     $display("REG[%d %d]%d %d",RegisterFile_1.A1,RegisterFile_1.A2,RegisterFile_1.RD1,RegisterFile_1.RD2);
@@ -395,6 +461,7 @@ always @(negedge(CLK)) begin
     $display("ALUOut_E %d  RegWrite_E %d",ALUOut_E,RegWrite_E);
     $display("ALUOut_M %d  RegWrite_M %d",ALUOut_M,RegWrite_M);
     $display("WriteData_M %d  MemWrite_M %d ReadData_M %d",WriteData_M,MemWrite_M,ReadData_M);
+    $display("zero_M %d  PCBranch_M %d  Branch_M %d",zero_M,PCBranch_M,Branch_M);
     $display("ALUOut_W %d ReadData_W %d RegWrite_W %d MemtoReg_W: %d  WriteReg_W:%d",
     ALUOut_W,ReadData_W,RegWrite_W,MemtoReg_W,WriteReg_W);
     $display("------------");
@@ -402,7 +469,7 @@ always @(negedge(CLK)) begin
     
     // stop mechanism
     designed_cnt=designed_cnt+1;
-    if(designed_cnt>=200) $finish;
+    // if(designed_cnt>=200) $finish;
     if (instr_D==32'b11111111111111111111111111111111)
         flag=1;
     if (flag==1)
@@ -419,6 +486,7 @@ always @(negedge(CLK)) begin
         end
         $finish;
     end
+
 end
 
 

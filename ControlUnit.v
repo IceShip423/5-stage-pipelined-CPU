@@ -308,41 +308,42 @@ always @(Op, Funct) begin
         ALUSrc_shamt=0;
         RegDst=0; // x
     end
-    /*
     else if (Op==6'h2) // j
     begin
+        $display("j");
         RegWrite=0;
         MemtoReg=0;
         MemWrite=0;
-        Branch=;
-        ALUControl=4'b;
-        ALUSrc=;
+        Branch=0;
+        ALUControl=4'b1101;
+        ALUSrc=0;
         ALUSrc_shamt=0;
-        RegDst =;
+        RegDst=0;
     end
     else if (Op==6'h3) // jal
     begin
-        RegWrite=;
-        MemtoReg=;
-        MemWrite=;
-        Branch=;
-        ALUControl=4'b;
-        ALUSrc=;
+        $display("jal");
+        RegWrite=0;
+        MemtoReg=0;
+        MemWrite=0;
+        Branch=0;
+        ALUControl=4'b1101;
+        ALUSrc=0;
         ALUSrc_shamt=0;
-        RegDst =;
+        RegDst =0;
     end
     else if (Op==6'h0 && Funct==6'h8) // jr
     begin
-        RegWrite=;
-        MemtoReg=;
-        MemWrite=;
-        Branch=;
-        ALUControl=4'b;
-        ALUSrc=;
+        $display("jr");
+        RegWrite=0;
+        MemtoReg=0;
+        MemWrite=0;
+        Branch=0;
+        ALUControl=4'b1110;
+        ALUSrc=0;
         ALUSrc_shamt=0;
-        RegDst =;
+        RegDst =0;
     end
-    */
     else
     begin
         $display("Control Unit can't recognize");

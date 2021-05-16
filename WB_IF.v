@@ -12,7 +12,7 @@ initial begin
 end
 
 always @(posedge CLK) begin
-    if(ENABLE==1)
+    if(ENABLE==1 && $signed(PC)>=0 )
         PCF = PC;
 end
 

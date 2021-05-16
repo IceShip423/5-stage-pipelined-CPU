@@ -38,12 +38,15 @@ module InstructionRAM
     DATA=32'b00000000000000000000000000000000;
   end
 
-  always @(FETCH_ADDRESS) begin : InstructionRAM_blockRamFile         
+  always @(FETCH_ADDRESS,ENABLE) begin : InstructionRAM_blockRamFile         
     if (1'b0 & ENABLE) begin
     RAM[(wild_0)] <= DATA_0[31:0];
     end
     if (ENABLE) begin
     DATA <= RAM[(wild)];
+    end
+    else begin
+        DATA<=32'b001000_00000_00000_0000000000000000; // addi $zero, $zero, 0
     end
   end
   // blockRamFile end
