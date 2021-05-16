@@ -1,6 +1,7 @@
 `timescale 100fs/100fs
 
-module MEM_WB(CLK,in_RegWrite,in_MemtoReg,RegWrite,MemtoReg,in_ALUOut,in_ReadData,
+module MEM_WB(CLK,
+in_RegWrite,in_MemtoReg,RegWrite,MemtoReg,in_ALUOut,in_ReadData,
 ALUOut,ReadData,in_WriteReg,WriteReg);
 
 // input & output
@@ -13,20 +14,20 @@ input [4:0] in_WriteReg;
 output reg [4:0] WriteReg;
 
 initial begin
-    RegWrite    =    0     ;
-    MemtoReg    =    0     ;
-    ALUOut      =    0     ;
-    ReadData    =    0     ;
-    WriteReg    =    0     ;    
+    RegWrite    <=    0     ;
+    MemtoReg    <=    0     ;
+    ALUOut      <=    0     ;
+    ReadData    <=    0     ;
+    WriteReg    <=    0     ;    
 end
 
 
 always @(posedge CLK) begin
-    RegWrite    =    in_RegWrite     ;
-    MemtoReg    =    in_MemtoReg     ;
-    ALUOut      =    in_ALUOut       ;
-    ReadData    =    in_ReadData     ;
-    WriteReg    =    in_WriteReg     ;
+    RegWrite    <=    in_RegWrite     ;
+    MemtoReg    <=    in_MemtoReg     ;
+    ALUOut      <=    in_ALUOut       ;
+    ReadData    <=    in_ReadData     ;
+    WriteReg    <=    in_WriteReg     ;
 end
 
 endmodule

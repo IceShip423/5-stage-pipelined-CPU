@@ -4,8 +4,7 @@
 `timescale 100fs/100fs
 module InstructionRAM
     ( // Inputs
-      input  CLOCK // clock
-    , input  RESET // reset
+      input  RESET // reset
     , input  ENABLE
     , input [31:0] FETCH_ADDRESS
 
@@ -36,14 +35,15 @@ module InstructionRAM
 
   initial begin
     $readmemb("instructions.bin",RAM);
+    DATA=32'b00000000000000000000000000000000;
   end
 
-  always @(posedge CLOCK) begin : InstructionRAM_blockRamFile
+  always @(FETCH_ADDRESS) begin : InstructionRAM_blockRamFile         
     if (1'b0 & ENABLE) begin
-      RAM[(wild_0)] <= DATA_0[31:0];
+    RAM[(wild_0)] <= DATA_0[31:0];
     end
     if (ENABLE) begin
-      DATA <= RAM[(wild)];
+    DATA <= RAM[(wild)];
     end
   end
   // blockRamFile end

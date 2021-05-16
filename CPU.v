@@ -18,6 +18,11 @@
 module CPU;
 
 
+/* Wires
+-----------------------
+*/
+reg ENABLE;
+
 wire [31:0] PC_F;
 wire Branch_M;
 
@@ -37,6 +42,7 @@ wire [31:0] Result_W;
 wire CLK;
 
 clock clock_1(
+    .ENABLE    (1'b1),
     // out
     .CLK       (CLK)
 );
@@ -64,6 +70,7 @@ MUX32 MUX32_1(
 WB_IF WB_IF_1(
     .CLK        (CLK),
     .PC         (PC),
+    .ENABLE     (ENABLE),
     // out
     .PCF        (PC_F)
 );
@@ -75,8 +82,7 @@ WB_IF WB_IF_1(
 
 wire [31:0] instr_F;
 
-InstructionRAM InstructionRAM_1(
-    .CLOCK               (CLK),                         
+InstructionRAM InstructionRAM_1(                  
     .RESET               (1'b0),            
     .ENABLE              (1'b1),             
     .FETCH_ADDRESS       (PC_F>>2),                    
@@ -178,7 +184,8 @@ ID_EX ID_EX_3(
     .in_RD1            (RD1_D),                 
     .in_RD2            (RD2_D),                 
     .in_Rt             (instr_D[20:16]),                
-    .in_Rd             (instr_D[15:11]),                
+    .in_Rd             (instr_D[15:11]),
+    .in_shamt          (instr_D[10:6]),                
     .in_SignImm        (SignImm_D),                     
     .in_PCplus4        (PCplus4_D),
     // out                     
@@ -208,7 +215,8 @@ wire [31:0] SrcB_E;
 
 MUX32 MUX32_2(
     .A0             (RD2_E),     
-    .A1             (SignImm_E),    
+    // when xori, ori, no sign-extend.
+    .A1             ((ALUControl_E==4'b0001 || ALUControl_E==4'b0011) ? {16'h0000,SignImm_E[15:0]} : SignImm_E),    
     .Control        (ALUSrc_E),
     // out        
     .C              (SrcB_E)   
@@ -318,8 +326,8 @@ MainMemory MainMemory_1(
     .CLOCK                    (CLK),                   
     .RESET                    (1'b0),     
     .ENABLE                   (MemWrite_M),      
-    .FETCH_ADDRESS            (ALUOut_M),
-    .EDIT_SERIAL              ({MemWrite_M,ALUOut_M[31:0],WriteData_M[31:0]}),             
+    .FETCH_ADDRESS            (ALUOut_M>>2),
+    .EDIT_SERIAL              ({MemWrite_M,ALUOut_M[31:0]>>2,WriteData_M[31:0]}),             
     // out
     .DATA                     (ReadData_M)    
 );
@@ -360,18 +368,57 @@ MUX32 MUX32_5(
 );
 
 
+integer aa;
 
-integer cnt=0,flag=0;
+initial begin
+    ENABLE=0;
+    #4000;
+
+    ENABLE=1;
+    $display("--------Begin-------");
+end
+
+always @(posedge(CLK))begin
+    // $display("posedge:%d %b",PC_F,instr_F);
+
+end
+
+integer final_cnt=0,flag=0,designed_cnt=0;
 
 always @(negedge(CLK)) begin
-    $display("[PC=%d]  %b",PC_F,instr_F);
+    // ENABLE=~ENABLE;
+    #900; // the end of this clock
+    $display("[PCF:%d][%d] instr_F:%b",PC_F,InstructionRAM_1.FETCH_ADDRESS,instr_F);
+    $display("instr_D:%b",instr_D);
+    $display("REG[%d %d]%d %d",RegisterFile_1.A1,RegisterFile_1.A2,RegisterFile_1.RD1,RegisterFile_1.RD2);
+    $display("[SrcA:%d] [SrcB:%d]",SrcA_E,SrcB_E);
+    $display("ALUOut_E %d  RegWrite_E %d",ALUOut_E,RegWrite_E);
+    $display("ALUOut_M %d  RegWrite_M %d",ALUOut_M,RegWrite_M);
+    $display("WriteData_M %d  MemWrite_M %d ReadData_M %d",WriteData_M,MemWrite_M,ReadData_M);
+    $display("ALUOut_W %d ReadData_W %d RegWrite_W %d MemtoReg_W: %d  WriteReg_W:%d",
+    ALUOut_W,ReadData_W,RegWrite_W,MemtoReg_W,WriteReg_W);
+    $display("------------");
+
+    
     // stop mechanism
+    designed_cnt=designed_cnt+1;
+    if(designed_cnt>=200) $finish;
     if (instr_D==32'b11111111111111111111111111111111)
         flag=1;
     if (flag==1)
-        cnt=cnt+1;
-    if (cnt>=3)
+        final_cnt=final_cnt+1;
+    if (final_cnt>=5)
+    begin
+        // for (aa=0;aa<=31;aa=aa+1)
+        //     $write("[%d]%d %h\n",aa,RegisterFile_1.REG[aa],RegisterFile_1.REG[aa]);
+        aa=0;
+        while(aa<50)
+        begin
+            $display("%h %b",MainMemory_1.DATA_RAM[aa],MainMemory_1.DATA_RAM[aa]);
+            aa=aa+1;
+        end
         $finish;
+    end
 end
 
 

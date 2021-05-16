@@ -46,15 +46,16 @@ module MainMemory
     for (i=0; i < 512; i = i + 1) begin
       DATA_RAM[512-1-i] = ram_init[i*32+:32];
     end
+    DATA=0;
   end
 
-  always @(posedge CLOCK) begin : DATA_blockRam
+  always @(negedge CLOCK) begin : DATA_blockRam
     if (c$app_arg & ENABLE) begin
       DATA_RAM[(wild_0)] <= ds[31:0];
     end
-    if (ENABLE) begin
+    // if (ENABLE) begin
       DATA <= DATA_RAM[(wild)];
-    end
+    // end
   end
   // blockRam end
 

@@ -1,19 +1,23 @@
 `timescale 100fs/100fs
 
-module clock(CLK);
+module clock(CLK,ENABLE);
 
-// output
+// input & output
+input ENABLE;
 output reg CLK;
 
-parameter CLK_CYCLE = 200;
+parameter CLK_CYCLE = 2000;
 
 initial begin
     CLK=0;
 end
 
 always begin
-    #(CLK_CYCLE/2);
-    CLK=~CLK;
+    if(ENABLE==1)
+    begin
+        #(CLK_CYCLE/2);
+        CLK=~CLK;
+    end
 end
 
 endmodule

@@ -10,14 +10,14 @@ input [31:0] in_PCplus4;
 output reg [31:0] PCplus4;
 
 initial begin
-    inst             =          0        ;                                         
-    PCplus4          =          0        ;   
+    inst             <=          32'b0    ;                                         
+    PCplus4          <=          0        ;   
 end
 
 
 always @(posedge CLK) begin
-    inst             =          in_inst              ;                                         
-    PCplus4          =          in_PCplus4           ;                      
+    inst             <=          in_inst          ;                                         
+    PCplus4          <=          in_PCplus4       ;                      
 end
 
 endmodule

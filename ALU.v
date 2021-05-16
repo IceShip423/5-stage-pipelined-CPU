@@ -16,6 +16,10 @@ reg unsigned [31:0] Au,Bu;
 initial begin
     C=0;
     zero=0;
+    A=0;
+    B=0;
+    Au=0;
+    Bu=0;
 end
 
 always @(Ain,Bin,ALUControl) begin
@@ -55,15 +59,15 @@ always @(Ain,Bin,ALUControl) begin
         end
         4'b0100: // sll (notice)
         begin
-            C=Bu<<Au;
+            C=Bu<<A;
         end
         4'b0101: // srl (notice)
         begin
-            C=Bu>>Au;
+            C=Bu>>A;
         end
         4'b1000: // sra (notice)
         begin
-            C=B>>A;
+            C=($signed(B))>>>A;
         end
         4'b1001: // beq
         begin

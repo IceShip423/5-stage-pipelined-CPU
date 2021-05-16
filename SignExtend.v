@@ -4,8 +4,14 @@ module SignExtend(num16,num32);
 
 // input & output
 input signed [15:0] num16;
-output signed [31:0] num32;
+output reg signed [31:0] num32;
 
-assign num32=num16;
+initial begin
+    num32=0;
+end
+
+always @(num16) begin
+    num32=num16;
+end
 
 endmodule
