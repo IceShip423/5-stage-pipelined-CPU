@@ -79,7 +79,7 @@ always @(Ain,Bin,ALUControl) begin
             C= A != B ? 32'h0000_0001 : 32'h0000_0000;
             zero = A != B ? 1 : 0;
         end
-        default: $display("Unknown ALUControl\n");
+        // default: $display("Unknown ALUControl\n");
     endcase
 end
 

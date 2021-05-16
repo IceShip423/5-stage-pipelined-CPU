@@ -22,7 +22,7 @@ end
 always @(Op, Funct) begin
     if (Op==6'h0 && Funct==6'h20) // add
     begin
-        $display("add");
+        // $display("add");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -34,7 +34,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h0 && Funct==6'h21) // addu (add)
     begin
-        $display("addu");
+        // $display("addu");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -46,7 +46,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h8) // addi
     begin
-        $display("addi");
+        // $display("addi");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -58,7 +58,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h9) // addiu (addi)
     begin
-        $display("addiu");
+        // $display("addiu");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -70,7 +70,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h0 && Funct==6'h22) // sub
     begin
-        $display("sub");
+        // $display("sub");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -82,7 +82,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h0 && Funct==6'h23) // subu (sub)
     begin
-        $display("subu");
+        // $display("subu");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -94,7 +94,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h0 && Funct==6'h24) // &&
     begin
-        $display("and");
+        // $display("and");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -106,7 +106,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'hc) // &&i
     begin
-        $display("andi");
+        // $display("andi");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -118,7 +118,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h0 && Funct==6'h27) // nor
     begin
-        $display("nor");
+        // $display("nor");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -130,7 +130,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h0 && Funct==6'h25) // or
     begin
-        $display("or");
+        // $display("or");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -142,7 +142,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'hd) // ori
     begin
-        $display("ori");
+        // $display("ori");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -154,7 +154,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h0 && Funct==6'h26) // xor
     begin
-        $display("xor");
+        // $display("xor");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -166,7 +166,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'he) // xori
     begin
-        $display("xori");
+        // $display("xori");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -178,7 +178,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h0 && Funct==6'h0) // sll
     begin
-        $display("sll");
+        // $display("sll");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -190,7 +190,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h0 && Funct==6'h4) // sllv
     begin
-        $display("sllv");
+        // $display("sllv");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -202,7 +202,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h0 && Funct==6'h3) // sra
     begin
-        $display("sra");
+        // $display("sra");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -214,7 +214,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h0 && Funct==6'h7) // srav
     begin
-        $display("srav");
+        // $display("srav");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -226,7 +226,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h0 && Funct==6'h2) // srl
     begin
-        $display("srl");
+        // $display("srl");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -238,7 +238,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h0 && Funct==6'h6) // srlv
     begin
-        $display("srlv");
+        // $display("srlv");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -250,7 +250,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h4) // beq
     begin
-        $display("beq");
+        // $display("beq");
         RegWrite=0;
         MemtoReg=0;
         MemWrite=0;
@@ -262,7 +262,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h5) // bne
     begin
-        $display("bne");
+        // $display("bne");
         RegWrite=0;
         MemtoReg=0;
         MemWrite=0;
@@ -274,7 +274,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h0 && Funct==6'h2a) // slt
     begin
-        $display("slt");
+        // $display("slt");
         RegWrite=1;
         MemtoReg=0;
         MemWrite=0;
@@ -286,7 +286,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h23) // lw
     begin
-        $display("lw");
+        // $display("lw");
         RegWrite=1;
         MemtoReg=1;
         MemWrite=0;
@@ -298,7 +298,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h2b) // sw
     begin
-        $display("sw");
+        // $display("sw");
         RegWrite=0;
         MemtoReg=0;
         MemWrite=1;
@@ -310,7 +310,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h2) // j
     begin
-        $display("j");
+        // $display("j");
         RegWrite=0;
         MemtoReg=0;
         MemWrite=0;
@@ -322,7 +322,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h3) // jal
     begin
-        $display("jal");
+        // $display("jal");
         RegWrite=0;
         MemtoReg=0;
         MemWrite=0;
@@ -334,7 +334,7 @@ always @(Op, Funct) begin
     end
     else if (Op==6'h0 && Funct==6'h8) // jr
     begin
-        $display("jr");
+        // $display("jr");
         RegWrite=0;
         MemtoReg=0;
         MemWrite=0;
@@ -346,7 +346,7 @@ always @(Op, Funct) begin
     end
     else
     begin
-        $display("Control Unit can't recognize");
+        // $display("Control Unit can't recognize");
         RegWrite=0;
         MemtoReg=0;
         MemWrite=0;

@@ -454,17 +454,17 @@ always @(negedge(CLK)) begin
 
     #900; // the end of this clock
 
-    $display("[PCF:%d][%d] instr_F:%b",PC_F,InstructionRAM_1.FETCH_ADDRESS,instr_F);
-    $display("instr_D:%b",instr_D);
-    $display("REG[%d %d]%d %d",RegisterFile_1.A1,RegisterFile_1.A2,RegisterFile_1.RD1,RegisterFile_1.RD2);
-    $display("[SrcA:%d] [SrcB:%d]",SrcA_E,SrcB_E);
-    $display("ALUOut_E %d  RegWrite_E %d",ALUOut_E,RegWrite_E);
-    $display("ALUOut_M %d  RegWrite_M %d",ALUOut_M,RegWrite_M);
-    $display("WriteData_M %d  MemWrite_M %d ReadData_M %d",WriteData_M,MemWrite_M,ReadData_M);
-    $display("zero_M %d  PCBranch_M %d  Branch_M %d",zero_M,PCBranch_M,Branch_M);
-    $display("ALUOut_W %d ReadData_W %d RegWrite_W %d MemtoReg_W: %d  WriteReg_W:%d",
-    ALUOut_W,ReadData_W,RegWrite_W,MemtoReg_W,WriteReg_W);
-    $display("------------");
+    // $display("[PCF:%d][%d] instr_F:%b",PC_F,InstructionRAM_1.FETCH_ADDRESS,instr_F);
+    // $display("instr_D:%b",instr_D);
+    // $display("REG[%d %d]%d %d",RegisterFile_1.A1,RegisterFile_1.A2,RegisterFile_1.RD1,RegisterFile_1.RD2);
+    // $display("[SrcA:%d] [SrcB:%d]",SrcA_E,SrcB_E);
+    // $display("ALUOut_E %d  RegWrite_E %d",ALUOut_E,RegWrite_E);
+    // $display("ALUOut_M %d  RegWrite_M %d",ALUOut_M,RegWrite_M);
+    // $display("WriteData_M %d  MemWrite_M %d ReadData_M %d",WriteData_M,MemWrite_M,ReadData_M);
+    // $display("zero_M %d  PCBranch_M %d  Branch_M %d",zero_M,PCBranch_M,Branch_M);
+    // $display("ALUOut_W %d ReadData_W %d RegWrite_W %d MemtoReg_W: %d  WriteReg_W:%d",
+    // ALUOut_W,ReadData_W,RegWrite_W,MemtoReg_W,WriteReg_W);
+    // $display("------------");
 
     
     // stop mechanism
@@ -481,7 +481,7 @@ always @(negedge(CLK)) begin
         aa=0;
         while(aa<50)
         begin
-            $display("%h %b",MainMemory_1.DATA_RAM[aa],MainMemory_1.DATA_RAM[aa]);
+            $display("%b",MainMemory_1.DATA_RAM[aa]);
             aa=aa+1;
         end
         $finish;

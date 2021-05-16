@@ -7,9 +7,4 @@ CPU CPU_test(
 
 );
 
-
-initial begin
-    $display("Begin");
-end
-
 endmodule
