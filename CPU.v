@@ -383,6 +383,8 @@ MUX32 MUX32_5(
 ------------------------
 */
 
+integer designed_cnt=0;
+
 initial begin
     ENABLE=0;
     RESET_EX_MEM=0;
@@ -390,6 +392,7 @@ initial begin
     RESET_IF_ID=0;
     #4000;
     ENABLE=1;
+    designed_cnt=0;
     $display("------------------Begin----------------------");
 end
 
@@ -448,7 +451,7 @@ end
 */
 
 integer aa;
-integer final_cnt=0,flag=0,designed_cnt=0;
+integer final_cnt=0,flag=0;
 
 always @(negedge(CLK)) begin
 
@@ -484,6 +487,7 @@ always @(negedge(CLK)) begin
             $display("%b",MainMemory_1.DATA_RAM[aa]);
             aa=aa+1;
         end
+        $display("Clock cycles: %d",designed_cnt);
         $finish;
     end
 
